@@ -120,7 +120,7 @@ public class Basic : WeaponBase
                 proj.baseRayData = data;
                 proj.baseRayData.damage = baseRayData.damage;
 
-                StartCoroutine(proj.Check(player.rb.transform.position, ray.direction * 10000, hitLayer));
+                StartCoroutine(proj.Check(player.rb.transform.position, ray.direction, hitLayer));
             }
 
             //rS.AddRecoil(recoil, recoilSnapping, recoilEndSpeed);

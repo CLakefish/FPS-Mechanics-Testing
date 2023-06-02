@@ -41,7 +41,7 @@ public class Hitscan : ProjectileBase
                 {
                     Debug.Log("find");
 
-                    if (FindNearest("Enemy", info.point, out Vector3 enemy))
+                    if (CDetection.FindNearest("Enemy", info.point, out Vector3 enemy, baseRayData))
                     {
                         Debug.Log("nuhuh");
 
@@ -96,11 +96,6 @@ public class Hitscan : ProjectileBase
 
                 // Fix this
 
-                if (info.collider.gameObject.GetComponent<Rigidbody>() != null)
-                {
-                    info.collider.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
-                }
-
                 baseRayData.hitReflectors.Add(info.collider.gameObject);
 
                 baseRayData.damage *= 2;
@@ -110,7 +105,7 @@ public class Hitscan : ProjectileBase
 
                 if (baseRayData.findNearestReflect)
                 {
-                    if (FindNearest("Reflect", info.point, out Vector3 reflect))
+                    if (CDetection.FindNearest("Reflect", info.point, out Vector3 reflect, baseRayData))
                     {
                         // Debug.Log(enemyDir);//
 
@@ -128,7 +123,7 @@ public class Hitscan : ProjectileBase
                     }
                 }
 
-                if (FindNearest("Enemy", info.point, out Vector3 enemyDir))
+                if (CDetection.FindNearest("Enemy", info.point, out Vector3 enemyDir, baseRayData))
                 {
                     yield return Check(info.point, enemyDir, hitLayer);
 
@@ -142,66 +137,6 @@ public class Hitscan : ProjectileBase
 
                 yield break;
             }
-        }
-    }
-
-    bool FindNearest(string tag, Vector3 point, out Vector3 direction)
-    {
-        Vector3 projectileDirection = new();
-
-        List<GameObject> objs = new();
-
-        if (tag == "Reflect")
-        {
-            foreach (GameObject obj in GameObject.FindGameObjectsWithTag(tag))
-            {
-                if (baseRayData.hitReflectors.Contains(obj) == false)
-                {
-
-                    objs.Add(obj);
-                }
-            }
-        }
-
-        if (tag == "Enemy")
-        {
-            foreach (GameObject obj in GameObject.FindGameObjectsWithTag(tag))
-            {
-                if (baseRayData.hitEnemies.Contains(obj) == false)
-                {
-
-                    objs.Add(obj);
-                }
-            }
-        }
-
-        foreach (GameObject obj in objs)
-        {
-            Debug.DrawRay(obj.transform.position, Vector3.up, Color.green, 2f);
-        }
-
-        if (objs.Count >= 1)
-        {
-            GameObject nearestObject = CDetection.NearestObj(objs.ToArray(), point).gameObject;
-            if (nearestObject == null)
-            {
-                direction = default;
-                return false;
-            }
-
-            if (Vector3.Distance(nearestObject.transform.position, point) <= 100)
-            {
-                projectileDirection = (nearestObject.transform.position - point).normalized;
-            }
-
-            direction = projectileDirection;
-
-            return true;
-        }
-        else
-        {
-            direction = default;
-            return false;
         }
     }
 }

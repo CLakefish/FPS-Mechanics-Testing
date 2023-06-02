@@ -44,7 +44,9 @@ namespace CUtilities
 
     // Any entity utilities
     namespace Entity
-    { 
+    {
+        using CUtilities.Weapon;
+
         public static class CDetection
         {
             public static Transform NearestObj(GameObject[] objs, Vector3 position)
@@ -66,6 +68,66 @@ namespace CUtilities
                 }
 
                 return closestTarget;
+            }
+
+            public static bool FindNearest(string tag, Vector3 point, out Vector3 direction, RaycastData baseRayData)
+            {
+                Vector3 projectileDirection = new();
+
+                List<GameObject> objs = new();
+
+                if (tag == "Reflect")
+                {
+                    foreach (GameObject obj in GameObject.FindGameObjectsWithTag(tag))
+                    {
+                        if (baseRayData.hitReflectors.Contains(obj) == false)
+                        {
+
+                            objs.Add(obj);
+                        }
+                    }
+                }
+
+                if (tag == "Enemy")
+                {
+                    foreach (GameObject obj in GameObject.FindGameObjectsWithTag(tag))
+                    {
+                        if (baseRayData.hitEnemies.Contains(obj) == false)
+                        {
+
+                            objs.Add(obj);
+                        }
+                    }
+                }
+
+                foreach (GameObject obj in objs)
+                {
+                    Debug.DrawRay(obj.transform.position, Vector3.up, Color.green, 2f);
+                }
+
+                if (objs.Count >= 1)
+                {
+                    GameObject nearestObject = CDetection.NearestObj(objs.ToArray(), point).gameObject;
+                    if (nearestObject == null)
+                    {
+                        direction = default;
+                        return false;
+                    }
+
+                    if (Vector3.Distance(nearestObject.transform.position, point) <= 100)
+                    {
+                        projectileDirection = (nearestObject.transform.position - point).normalized;
+                    }
+
+                    direction = projectileDirection;
+
+                    return true;
+                }
+                else
+                {
+                    direction = default;
+                    return false;
+                }
             }
         }
 

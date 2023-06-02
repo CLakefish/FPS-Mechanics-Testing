@@ -98,7 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAmmo: 12
   maxAmmo: 12
-  projectile: {fileID: 5811705178693183263, guid: 38f657a596729124d94870fba195cc08, type: 3}
+  projectile: {fileID: 5091817486102700009, guid: 17146172f8366164b8de2318c72a3346, type: 3}
   fireType: 0
   hitLayer:
     serializedVersion: 2
@@ -118,7 +118,7 @@ MonoBehaviour:
   baseRayData:
     bounceCount: 3
     damage: 8
-    speed: 1000
+    speed: 10.14
     continuousTargetting: 1
     canBounce: 0
     findNearestReflect: 1
