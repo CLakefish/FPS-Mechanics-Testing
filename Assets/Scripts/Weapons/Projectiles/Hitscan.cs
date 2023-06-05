@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Hitscan : ProjectileBase
 {
+    [Header("BulletHoles")]
+    [SerializeField] List<GameObject> bulletHoles;
+
     private void Start()
     {
         Destroy(gameObject, 5f);
@@ -27,6 +30,9 @@ public class Hitscan : ProjectileBase
 
                     yield break;
                 }
+
+                GameObject newObj = Instantiate(bulletHoles[Random.Range(0, bulletHoles.Count - 1)], info.point, Quaternion.identity);
+                Destroy(newObj, 0.75f);
 
                 if (info.collider.gameObject.TryGetComponent(out Health hitObject))
                 {
@@ -84,7 +90,6 @@ public class Hitscan : ProjectileBase
                     }
                 }
             }
-
             if (info.collider.gameObject.layer == 6)
             {
                 if (baseRayData.hitReflectors.Contains(info.collider.gameObject))
@@ -100,8 +105,13 @@ public class Hitscan : ProjectileBase
 
                 baseRayData.damage *= 2;
 
-                //FindObjectOfType<DamageVisualHandler>().DisplayDamage("no", info.point, Color.red);
+                FindObjectOfType<DamageVisualHandler>().DisplayDamage("x2!", info.point, Color.red);
 
+                if (info.collider.gameObject.TryGetComponent<Rigidbody>(out Rigidbody coinRb))
+                {
+                    coinRb.velocity = new Vector3(0f, 0f, 0f);
+                    coinRb.AddForce(Vector3.up * 3f, ForceMode.VelocityChange);
+                }
 
                 if (baseRayData.findNearestReflect)
                 {
@@ -112,6 +122,8 @@ public class Hitscan : ProjectileBase
                         yield return new WaitForEndOfFrame();
 
                         yield return Check(info.point, reflect, hitLayer);
+
+                        Destroy(info.collider);
 
                         yield break;
                     }
@@ -127,6 +139,8 @@ public class Hitscan : ProjectileBase
                 {
                     yield return Check(info.point, enemyDir, hitLayer);
 
+                    Destroy(info.collider);
+
                     yield break;
                 }
 
@@ -134,6 +148,8 @@ public class Hitscan : ProjectileBase
                 baseRayData.findNearestTarget = false;
 
                 yield return Check(info.point, enemyDir, hitLayer);
+
+                Destroy(info.collider);
 
                 yield break;
             }

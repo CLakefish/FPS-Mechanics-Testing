@@ -244,4 +244,13 @@ namespace CUtilities
             Multi,
         }
     }
+
+    namespace Object
+    {
+        public interface IInteractible
+        {
+            public void Interact();
+            public string GetString();
+        }
+    }
 }

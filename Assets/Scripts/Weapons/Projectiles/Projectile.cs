@@ -20,8 +20,6 @@ public class Projectile : ProjectileBase
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, baseRayData.speed);
     }
 
-
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 0)
@@ -36,26 +34,30 @@ public class Projectile : ProjectileBase
 
                 hp.OnHit(baseRayData.damage);
 
+                if (baseRayData.findNearestTarget)
+                {
+                    Debug.Log("find");
+
+                    if (CDetection.FindNearest("Enemy", gameObject.transform.position, out Vector3 enemy, baseRayData))
+                    {
+                        Debug.Log("nuhuh");
+
+                        baseRayData.findNearestTarget = baseRayData.continuousTargetting;
+
+                        StartCoroutine(Check(gameObject.transform.position, enemy, l));
+                    }
+                }
+
                 if (!baseRayData.canBounce)
                 {
                     active = false;
                     Destroy(gameObject);
-                    rb.velocity = new Vector3(0f, 0f, 0f);
                 }
             }
-
-            if (baseRayData.findNearestTarget)
+            else
             {
-                Debug.Log("find");
-
-                if (CDetection.FindNearest("Enemy", gameObject.transform.position, out Vector3 enemy, baseRayData))
-                {
-                    Debug.Log("nuhuh");
-
-                    baseRayData.findNearestTarget = baseRayData.continuousTargetting;
-
-                    StartCoroutine(Check(gameObject.transform.position, enemy, l));
-                }
+                active = false;
+                Destroy(gameObject);
             }
         }
 
@@ -72,6 +74,20 @@ public class Projectile : ProjectileBase
 
             baseRayData.damage *= 2;
             baseRayData.speed *= 2;
+
+            if (baseRayData.findNearestReflect)
+            {
+                Debug.Log("find");
+
+                if (CDetection.FindNearest("Reflect", gameObject.transform.position, out Vector3 enemy, baseRayData))
+                {
+                    Debug.Log("nuhuh");
+
+                    baseRayData.findNearestTarget = baseRayData.continuousTargetting;
+
+                    StartCoroutine(Check(gameObject.transform.position, (enemy - gameObject.transform.position).normalized, l));
+                }
+            }
         }
     }
 

@@ -11,7 +11,7 @@ public class PlayerWeapons : MonoBehaviour
     public List<GameObject> visuals;
     public List<GameObject> instantiated;
     public List<WeaponObject> heldObjects;
-    internal List<int> heldObjectAmmoCounts = new(1);
+    public List<int> heldObjectAmmoCounts;
     public int selectedIndex;
 
     [Header("Held Weapon")]
@@ -24,14 +24,14 @@ public class PlayerWeapons : MonoBehaviour
         if (heldObjects.Count <= 0) return;
 
         selectedIndex = 0;
+        heldObjectAmmoCounts.Add(0);
         SwapWeapon(heldObjects[0], true);
     }
 
     // Add a way to store the weapon information
     public void SwapWeapon(WeaponObject newWeapon, bool onStart = false)
     {
-        if (heldObjects.Count <= 1 && !onStart) return;
-
+        if (!onStart && heldObjects.Count <= 1) return;
         if (currentHeldWeaponBase != null) currentHeldWeaponBase.OnUnequip();
 
         currentHeldWeaponObject = newWeapon;
@@ -39,7 +39,6 @@ public class PlayerWeapons : MonoBehaviour
         if (!visuals.Contains(currentHeldWeaponObject.weaponPrefab))
         {
             currentHeldGameObject = Instantiate(currentHeldWeaponObject.weaponPrefab, weaponPosition);
-            heldObjectAmmoCounts.Add(newWeapon.weaponPrefab.GetComponent<WeaponBase>().maxAmmo);
             visuals.Add(currentHeldWeaponObject.weaponPrefab);
             instantiated.Add(currentHeldGameObject);
         }

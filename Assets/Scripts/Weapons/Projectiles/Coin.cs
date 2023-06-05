@@ -7,19 +7,23 @@ public class Coin : MonoBehaviour
     Rigidbody rb;
     PlayerMovement player;
 
-    float slideX = 100f,
-          slideLastX;
-
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         player = FindObjectOfType<PlayerMovement>();
 
-        //rb.velocity = player.rb.velocity;
+        rb.velocity = new Vector3(player.rb.velocity.x, 0f, player.rb.velocity.z);
 
-        rb.AddForce(Vector3.up * 10 + (Camera.main.transform.forward.normalized * 2f), ForceMode.VelocityChange);
+        rb.AddForce(Vector3.up * 8 + (Camera.main.transform.forward.normalized * 3f), ForceMode.VelocityChange);
 
         Destroy(gameObject, 2f);
+    }
+
+    private void Update()
+    {
+        transform.Rotate(new Vector3(Camera.main.transform.rotation.x, 0f, Camera.main.transform.rotation.z), Space.Self);
+
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, 10f);
     }
 
 }
