@@ -8,7 +8,9 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] float interactableDistance;
 
     [Header("Display")]
-    [SerializeField] internal TMPro.TMP_Text interactionText;
+    [SerializeField] internal GameObject interactionPrompt;
+    [SerializeField] internal TMPro.TMP_Text descriptionText,
+                                             nameText;
     PlayerMovement player;
 
     // Start is called before the first frame update
@@ -29,12 +31,20 @@ public class PlayerInteract : MonoBehaviour
             if (obj.collider.TryGetComponent<Interactable>(out Interactable i))
             {
                 InteractionHandle(i);
-                interactionText.text = i.GetDescription();
+                descriptionText.text = i.GetDescription() == "" ? "Missing!" : i.GetDescription();
+                nameText.text = i.GetName() == "" ? "Missing!" : i.GetName();
+
+                interactionPrompt.SetActive(true);
+                interactionPrompt.transform.position = Camera.main.WorldToScreenPoint(obj.transform.position);
                 hasHit = true;
             }
         }
 
-        if (!hasHit) interactionText.text = "";
+        if (!hasHit)
+        {
+            interactionPrompt.SetActive(false);
+            descriptionText.text = nameText.text = "";
+        }
     }
 
     void InteractionHandle(Interactable interactible)

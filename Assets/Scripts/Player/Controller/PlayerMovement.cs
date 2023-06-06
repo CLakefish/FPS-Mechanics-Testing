@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
     void CameraTilt(bool running)
     {
         // Tilt Values
-        Vector2 xTiltValues = new(3, 2),
+        Vector2 xTiltValues = new(3, 1),
                 yTiltValues = new(2, 1);
 
         // Tilting
@@ -91,5 +91,7 @@ public class PlayerMovement : MonoBehaviour
         viewTilt = new(
           Mathf.SmoothDamp(viewTilt.x, tiltStrength.x, ref currentTiltSpeed.x, smoothDampSpeed, maxSmoothDampSpeed, Time.deltaTime),
           Mathf.SmoothDamp(viewTilt.y, tiltStrength.y, ref currentTiltSpeed.y, smoothDampSpeed, maxSmoothDampSpeed, Time.deltaTime));
+
+        viewPosition.rotation *= Quaternion.Euler(new Vector3(-viewTilt.y, 0, viewTilt.x));
     }
 }
