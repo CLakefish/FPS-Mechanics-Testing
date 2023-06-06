@@ -247,10 +247,19 @@ namespace CUtilities
 
     namespace Object
     {
-        public interface IInteractible
+        public enum InteractionType
         {
-            public void Interact();
-            public string GetString();
+            Click,
+            Hold,
+            Special,
+        }
+
+        public abstract class Interactable : MonoBehaviour
+        {
+            public InteractionType interactionType;
+
+            public abstract string GetDescription();
+            public abstract void Interact();
         }
     }
 }

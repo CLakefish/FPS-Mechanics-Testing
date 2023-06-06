@@ -56,35 +56,19 @@ public class PlayerMovement : MonoBehaviour
 
         bool running = Input.GetKey(KeyCode.LeftShift);
 
-        float speed = (running) ? runningSpeed : walkingSpeed;
+        float speed = walkingSpeed;
         float speedI = (input != new Vector2(0f, 0f)) ? acceleration : deceleration;
 
         Vector3 moveDir = (viewPosition.forward * input.y + viewPosition.right * input.x).normalized * speed;
 
         CameraTilt(running);
 
-        if (stateDur == 0)
-        {
-            switch (state)
-            {
+        // Velocity
+        Vector3 velocity = new Vector3(moveDir.x, rb.velocity.y, moveDir.z);
 
-            }
-        }
+        rb.velocity = Vector3.SmoothDamp(rb.velocity, velocity, ref currentVelocity, speedI * Time.deltaTime);
 
-        stateDur += Time.deltaTime;
-
-        switch (state)
-        {
-            case (PlayerStates.Grounded):
-
-                break;
-        }
-
-        rb.velocity = new Vector3(Mathf.SmoothDamp(rb.velocity.x, moveDir.x, ref currentVelocity.x, speedI * Time.deltaTime), rb.velocity.y, Mathf.SmoothDamp(rb.velocity.z, moveDir.z, ref currentVelocity.z, speedI * Time.deltaTime));
-
-        Debug.Log(speed);
-
-        rb.velocity = Vector3.ClampMagnitude(rb.velocity, speed);
+        Vector3.ClampMagnitude(rb.velocity, speed);
 
         Debug.DrawRay(rb.transform.position, GetViewDirection() * 3, Color.black);
     }

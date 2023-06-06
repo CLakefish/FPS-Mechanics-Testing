@@ -29,7 +29,7 @@ public class PlayerCamera : MonoBehaviour
     public bool invertY;
     public bool invertX;
 
-    float mouseRotation;
+    Vector2 mouseRotation;
     internal Vector2 mousePos;
 
     // Start is called before the first frame update
@@ -50,10 +50,11 @@ public class PlayerCamera : MonoBehaviour
 
         mousePos = new Vector2(Input.GetAxis("Mouse X") * sensitivity.x, Input.GetAxis("Mouse Y") * sensitivity.y);
 
-        mouseRotation -= mousePos.y;
-        mouseRotation = Mathf.Clamp(mouseRotation, -89f, 89f);
+        mouseRotation.x -= mousePos.y;
+        mouseRotation.y += mousePos.x;
+        mouseRotation.x = Mathf.Clamp(mouseRotation.x, -89f, 89f);
 
-        transform.localRotation = Quaternion.Euler(mouseRotation, 0f, 0f);
-        playerObj.Rotate(Vector3.up * mousePos.x);
+        Vector3 direction = new Vector3(mouseRotation.x, mouseRotation.y, transform.rotation.z);
+        transform.localRotation = Quaternion.Euler(direction);
     }
 }
