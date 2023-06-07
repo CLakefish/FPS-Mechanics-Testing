@@ -119,6 +119,6 @@ MonoBehaviour:
     hitEnemies: []
     hitReflectors: []
   targetMaxDistance: 1336
-  recoil: {x: 4, y: 3, z: 4}
+  recoil: {x: -4, y: 3, z: 4}
   recoilSnapping: 15
   recoilEndSpeed: 15

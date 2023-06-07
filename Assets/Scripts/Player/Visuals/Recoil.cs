@@ -26,7 +26,6 @@ public class Recoil : MonoBehaviour
 
         returnSpeed = originate;
 
-        recoil = recoil;
         targetRotation += new Vector3(recoil.x, Random.Range(-recoil.y, recoil.y), Random.Range(-recoil.z, recoil.z));
     }
 }
