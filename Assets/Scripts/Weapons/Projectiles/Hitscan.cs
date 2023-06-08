@@ -16,13 +16,12 @@ public class Hitscan : ProjectileBase
     {
         yield return new WaitForEndOfFrame();
 
-        if (Physics.Raycast(position, direction, out RaycastHit info, 10000, hitLayer))
-        {
-            yield return new WaitForEndOfFrame();
+        if (!Physics.Raycast(position, direction, out RaycastHit info, 10000, hitLayer)) yield break;
 
-            if (info.collider.gameObject.layer == 0)
-            {
-                Debug.Log(0);
+
+        switch (info.collider.gameObject.layer)
+        {
+            case (0):
 
                 if (baseRayData.hitEnemies.Contains(info.collider.gameObject))
                 {
@@ -89,17 +88,17 @@ public class Hitscan : ProjectileBase
                             break;
                     }
                 }
-            }
-            if (info.collider.gameObject.layer == 6)
-            {
+
+                break;
+
+            case (6):
+
                 if (baseRayData.hitReflectors.Contains(info.collider.gameObject))
                 {
                     yield return Check(info.point, direction, hitLayer);
 
                     yield break;
                 }
-
-                // Fix this
 
                 baseRayData.hitReflectors.Add(info.collider.gameObject);
 
@@ -152,7 +151,6 @@ public class Hitscan : ProjectileBase
                 Destroy(info.collider);
 
                 yield break;
-            }
         }
     }
 }
