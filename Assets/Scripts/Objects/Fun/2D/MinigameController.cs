@@ -20,7 +20,6 @@ public class MinigameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space)) SceneManager.LoadScene(PlayerPrefs.GetInt("PlayerLevelIndex"));
 
-
         if (canRotate) rb.transform.Rotate(Vector3.forward * Time.deltaTime * 300, Space.World);
 
         Vector2 inputs = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
@@ -43,8 +42,14 @@ public class MinigameController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        StartCoroutine(onHit());
+
         switch (other.gameObject.layer)
         {
+            case (1):
+
+                break;
+
             case (0):
 
                 Debug.Log("good!");
@@ -55,7 +60,5 @@ public class MinigameController : MonoBehaviour
         rb.velocity = new Vector3(0f, 0f, 0f);
 
         canRotate = false;
-
-        StartCoroutine(onHit());
     }
 }
