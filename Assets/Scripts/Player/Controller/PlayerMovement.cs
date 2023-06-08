@@ -24,9 +24,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement Parameters")]
     [SerializeField] public bool canMove = true;
-    [SerializeField] float // Player Speeds
-        walkingSpeed,
-        runningSpeed;
+    [SerializeField]
+    float // Player Speeds
+        walkingSpeed;
     [SerializeField] float // Player Acceleration 
         acceleration,
         deceleration;
@@ -52,6 +52,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!canMove) return;
+
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
 
         bool running = Input.GetKey(KeyCode.LeftShift);

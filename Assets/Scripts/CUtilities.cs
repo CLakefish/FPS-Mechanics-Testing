@@ -256,10 +256,17 @@ namespace CUtilities
 
         public abstract class Interactable : MonoBehaviour
         {
-            public InteractionType interactionType;
+            [Header("Interaction Type")]
+            [SerializeField] public InteractionType interactionType;
+
+            [Header("Class Description")]
+            [SerializeField] public string name = "Menu";
+            [SerializeField] public string description = "Do some shit idk";
 
             public abstract string GetDescription();
-            public abstract string GetName();
+
+            public string GetName() => name;
+
             public abstract void Interact();
         }
     }

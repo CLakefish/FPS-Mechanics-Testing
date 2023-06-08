@@ -13,6 +13,9 @@ public class PlayerInteract : MonoBehaviour
                                              nameText;
     PlayerMovement player;
 
+    [Header("Keybinds")]
+    internal KeyCode key = KeyCode.E;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,8 +52,6 @@ public class PlayerInteract : MonoBehaviour
 
     void InteractionHandle(Interactable interactible)
     {
-        KeyCode key = KeyCode.E;
-
         switch (interactible.interactionType)
         {
             case (InteractionType.Click):

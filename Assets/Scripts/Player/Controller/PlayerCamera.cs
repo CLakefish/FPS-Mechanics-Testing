@@ -35,16 +35,18 @@ public class PlayerCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        // FOV Change based on FOV 
+        Camera.main.fieldOfView = fieldOfView;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        // FOV Change based on FOV 
-        Camera.main.fieldOfView = fieldOfView;
-
+        if (!canLook) return;
 
         // https://github.com/deadlykam/TutorialFPSRotation/tree/main/TutorialFPSRotation/Assets/TutorialFPSRotation/Scripts
 

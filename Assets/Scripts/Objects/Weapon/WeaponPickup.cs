@@ -8,15 +8,6 @@ public class WeaponPickup : Interactable
     [Header("Weapon to provide")]
     [SerializeField] public WeaponObject weapon;
 
-    [Header("Description")]
-    [TextArea] public string name;
-    [TextArea] public string description;
-
-    public override string GetName()
-    {
-        return name;
-    }
-
     public override string GetDescription()
     {
         return description;

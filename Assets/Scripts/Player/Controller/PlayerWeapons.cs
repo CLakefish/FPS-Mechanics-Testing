@@ -19,6 +19,9 @@ public class PlayerWeapons : MonoBehaviour
     public WeaponBase currentHeldWeaponBase;
     public GameObject currentHeldGameObject;
 
+    [Header("Enabling")]
+    [SerializeField] public bool canShoot = true;
+
     private void Start()
     {
         if (heldObjects.Count <= 0) return;
@@ -56,7 +59,7 @@ public class PlayerWeapons : MonoBehaviour
 
     private void Update()
     {
-        if (currentHeldWeaponBase == null) return;
+        if (currentHeldWeaponBase == null || !canShoot) return;
 
         // Ensure the ammo is kept up to date
         heldObjectAmmoCounts[selectedIndex] = currentHeldWeaponBase.currentAmmo;
