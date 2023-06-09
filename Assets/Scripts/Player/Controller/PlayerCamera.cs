@@ -50,6 +50,8 @@ public class PlayerCamera : MonoBehaviour
 
         // https://github.com/deadlykam/TutorialFPSRotation/tree/main/TutorialFPSRotation/Assets/TutorialFPSRotation/Scripts
 
+        Camera.main.fieldOfView = fieldOfView;
+
         mousePos = new Vector2(Input.GetAxis("Mouse X") * sensitivity.x, Input.GetAxis("Mouse Y") * sensitivity.y);
 
         mouseRotation.x -= mousePos.y;
