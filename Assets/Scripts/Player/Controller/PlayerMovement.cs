@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!canMove) return;
 
-        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         bool running = Input.GetKey(KeyCode.LeftShift);
 
