@@ -31,7 +31,6 @@ public class PlayerWeapons : MonoBehaviour
         SwapWeapon(heldObjects[0], true);
     }
 
-    // Add a way to store the weapon information
     public void SwapWeapon(WeaponObject newWeapon, bool onStart = false)
     {
         if (!onStart && heldObjects.Count <= 1) return;

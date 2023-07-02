@@ -114,7 +114,7 @@ MonoBehaviour:
     damage: 8
     speed: 30.03
     continuousTargetting: 1
-    canBounce: 1
+    canBounce: 0
     findNearestReflect: 1
     hitEnemies: []
     hitReflectors: []

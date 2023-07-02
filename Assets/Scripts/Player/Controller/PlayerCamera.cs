@@ -24,8 +24,6 @@ public class PlayerCamera : MonoBehaviour
         set { fieldOfView = value; }
     }
     [SerializeField] float fieldOfView;
-
-    float shakePos;
     public bool invertY;
     public bool invertX;
 
@@ -40,6 +38,10 @@ public class PlayerCamera : MonoBehaviour
 
         // FOV Change based on FOV 
         Camera.main.fieldOfView = fieldOfView;
+
+        // Invert Camera
+        invertX = PlayerPrefs.GetInt("InvertX") == 1;
+        invertY = PlayerPrefs.GetInt("InvertY") == 1;
     }
 
 
@@ -49,10 +51,13 @@ public class PlayerCamera : MonoBehaviour
         if (!canLook) return;
 
         // https://github.com/deadlykam/TutorialFPSRotation/tree/main/TutorialFPSRotation/Assets/TutorialFPSRotation/Scripts
-
         Camera.main.fieldOfView = fieldOfView;
 
         mousePos = new Vector2(Input.GetAxis("Mouse X") * sensitivity.x, Input.GetAxis("Mouse Y") * sensitivity.y);
+
+        // I'm no good with Quaternions so this'll do lmao
+        if (invertX) mousePos = new Vector2(-mousePos.x, mousePos.y);
+        if (invertY) mousePos = new Vector2(mousePos.x, -mousePos.y);
 
         mouseRotation.x -= mousePos.y;
         mouseRotation.y += mousePos.x;
@@ -60,5 +65,17 @@ public class PlayerCamera : MonoBehaviour
 
         Vector3 direction = new Vector3(mouseRotation.x, mouseRotation.y, transform.rotation.z);
         transform.localRotation = Quaternion.Euler(direction);
+    }
+
+    public void InvertX()
+    {
+        invertX = !invertX;
+        PlayerPrefs.SetInt("InvertX", invertX == true ? 1 : 0);
+    }
+
+    public void InvertY()
+    {
+        invertY = !invertY;
+        PlayerPrefs.SetInt("InvertY", invertY == true ? 1 : 0);
     }
 }

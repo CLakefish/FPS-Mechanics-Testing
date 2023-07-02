@@ -187,11 +187,22 @@ namespace CUtilities
     {
         public abstract class WeaponBase : MonoBehaviour
         {
+            [Header("Fire Parameters")]
+            public WeaponFireType fireType;
+
+            [Header("Speed Parameters")]
+            public float fireRate;
+            public float reloadTime;
+            internal float previousFireTime;
+
+            [Header("Ammo Parameters")]
             public int currentAmmo;
             public int maxAmmo;
+            public float bulletsPerShot;
+            public float bulletSpread;
 
+            [Header("Projectile")]
             public GameObject projectile;
-            public WeaponFireType fireType;
 
             public abstract void Shoot();
             public abstract void Reload();

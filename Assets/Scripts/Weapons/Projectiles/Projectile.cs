@@ -97,6 +97,7 @@ public class Projectile : ProjectileBase
 
         while (active)
         {
+            if (gameObject == null) yield break;
             rb.velocity = direction * baseRayData.speed;
 
             yield return null;

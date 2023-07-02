@@ -13,21 +13,15 @@ public class Basic : WeaponBase
     [Header("Hittable Layers")]
     public LayerMask hitLayer;
 
-    [Header("Coin Special")]
+    [Header("Special")]
     public Coin coin;
-
-    [Header("Weapon Variables")]
-    public float fireRate;
-    public float bulletsPerShot;
-    public float bulletSpread;
-    public float reloadTime;
-    float previousFireTime;
 
     [Header("Projectile Variables")]
     public RaycastData baseRayData;
     public int targetMaxDistance;
     bool canShoot = true;
 
+    [Header("Recoil Parameters")]
     Recoil rS;
     public Vector3 recoil;
     public float recoilSnapping;
@@ -90,10 +84,7 @@ public class Basic : WeaponBase
 
             previousFireTime = Time.time;
         }
-        else
-        {
-            return;
-        }
+        else return;
     }
 
     public override void Special()
